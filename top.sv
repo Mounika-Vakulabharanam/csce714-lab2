@@ -152,7 +152,17 @@ module top;
         inst_cpu_lv1_if[3].cpu_wr <= 1'b0;
 
 //Add a TEST
-       `ifdef TEST5
+       `ifdef 
+	    cpu_transaction_c o_transaction = new;
+           initial
+            begin
+              int success;
+              success = o_transaction.randomize() with (READ_REQ);
+              if (success == 0)
+                 $display("error")
+              else
+                 o_transaction.read(inst_cpu_lv1_if[2]);
+            end
 //Lab2: TO DO: Assign object to handle o_transaction
 //Randomize the handle pointing to an object such that request_type is always READ_REQ
 //If randomization is successful, make read on PROC[2], Use the read task that you would have created in HOMEWORK PART A
